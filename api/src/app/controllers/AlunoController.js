@@ -41,9 +41,6 @@ class AlunoController {
     const alunoDadosUpdate = req.body;
     const { idAlunoFiltroUpdate } = req.params;
 
-    console.log( alunoDadosUpdate)
-    console.log( idAlunoFiltroUpdate)
-
     try{
       const rowsUpdated = await Aluno.update(
         alunoDadosUpdate,
@@ -61,11 +58,12 @@ class AlunoController {
     const { idAlunoFiltroDelete } = req.params;
 
     try {
+
       const destroy = await Aluno.destroy({
         where: {id: idAlunoFiltroDelete}
       });
-      console.log( destroy)
       return res.status(200).json({destroy});
+
     } catch ( err ){
       res.status(400).json({error: `Erro na exclusão do dado - ${err}`});
       return;
@@ -77,8 +75,6 @@ class AlunoController {
 
     const retorno = await AtribuirCursoAlunoService.execute( req.params );
     
-    console.log( retorno )
-
     if ( retorno.valido ){
       return res.status(200).json({menssagem: 'Curso Atribuido'})
     } else if ( retorno.erro == 'duplicado'){
@@ -117,8 +113,6 @@ class AlunoController {
 
       })
     );
-
-    console.log( listaCursosAlunos )
 
     res.json(listaCursosAlunos)
   }
