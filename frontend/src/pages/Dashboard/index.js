@@ -11,6 +11,8 @@ import axios from 'axios';
 import { Container, InitialText } from './styles';
 
 const Dashboard = () => {
+  
+  /** Declaração de Variáveis  */
   const [alunos, setAlunos] = useState([]);
   const [cursos, setCursos] = useState([]);
   const [currentInfo, setCurrentInfo] = useState([]);
@@ -33,7 +35,9 @@ const Dashboard = () => {
 
   const [cursoSelecionado, setCursoSelecionado] = useState([]);
   const [cursosAluno, setCursosAluno] = useState([]);
+  /** */
     
+  /** Execução no render da página */
   useEffect(()=>{
     async function fetchData() {
       try{
@@ -56,6 +60,7 @@ const Dashboard = () => {
     fetchCursosData();
 
   }, [])
+  /** */
 
   /** MODAL Render Functions  */
   const render_modal_info_alunos = () => (
@@ -79,7 +84,7 @@ const Dashboard = () => {
             onChange={(e)=>setEmailAtualizado(e.target.value)}
           />
           <Form.Input 
-            fluid 
+            fluid             
             label='CEP' 
             placeholder='CEP' 
             value={cepAtualizado}
@@ -210,9 +215,9 @@ const Dashboard = () => {
     </Modal.Content>
   </Modal>
   );
-  
-  /** Gerencia as variaves dos modais */       
+  /** */
 
+  /** Controllers para a render dos modais */       
   function open_info_alunos(data_aluno){
     setCurrentInfo(data_aluno)
     setNomeAtualizado(data_aluno.nome)
@@ -228,16 +233,17 @@ const Dashboard = () => {
     setModalAdicionarInfos(true);
   }
 
-  async function open_gerencia_curso_aluno(data_aluno){
+  function open_gerencia_curso_aluno(data_aluno){
     setCurrentInfo( data_aluno );
     consulta_cursos_aluno( data_aluno.id )
     render_cursos_aluno();
     setCursosAluno('')
-   setModalGerenciarCursosAlunos(true);
+
+    setModalGerenciarCursosAlunos(true);
   }
   /**  */
 
-  /** API */
+  /** COnsultas API */
   async function exclui_dados_aluno(data_aluno){ 
     const id_aluno = data_aluno.id;
     const nome_aluno = data_aluno.nome;
@@ -251,12 +257,10 @@ const Dashboard = () => {
         const response = await api.get('/alunos');
         setAlunos(response.data);
       }      
-    }  
-
+    }
   }
 
-  async function adiciona_dados_aluno(){
-    
+  async function adiciona_dados_aluno(){    
     if ( nomeCadastro === '' || emailCadastro === '' || cepCadastro === '' || cidadeCadastro === '' || estadoCadastro === '' ){
       alert('Todos os dados devem ser preenchidos');
       return;
@@ -283,11 +287,9 @@ const Dashboard = () => {
     setCepCadastro('')
     setCidadeCadastro('')
     setEstadoCadastro('')
-
   }
 
   async function atualiza_dados_aluno(){
-
     if ( nomeAtualizado === '' || emailAtualizado === '' || cepAtualizado === '' || cidadeAtualizado === '' || estadoAtualizado === '' ){
       alert('Todos os dados devem ser preenchidos');
       return;
@@ -338,17 +340,14 @@ const Dashboard = () => {
     try{
       let retornoCursosoAluno = await api.get(`/cursos/${id_aluno}`)
       setCursosAluno(retornoCursosoAluno.data);
-      console.log( retornoCursosoAluno )
     } catch ( err ){
       alert('Erro na consulta ' + err)
     }
-
   }
-
   /** */
 
-  /** Utils Functions */
 
+  /** Util Functions */
   async function completaEndereco( numeroCep , finalidade ){
 
     var validacep = /^[0-9]{8}$/;
@@ -373,7 +372,7 @@ const Dashboard = () => {
   // **   */
 
 
-  /** Render Functions */
+  /** Components Render Functions */
   function render_actions(data_aluno){
     return <center>
       <Popup
@@ -436,9 +435,9 @@ const Dashboard = () => {
     </Table.Row>)
     
   }
-  // **   */
+  /**   */
 
-
+  /** == Index == */
   return (
     <Container fluid>
       <InitialText>Administrador de alunos</InitialText>
